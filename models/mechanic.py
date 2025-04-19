@@ -8,7 +8,7 @@ class Mechanic(db.Model):
     last_name = db.Column(db.String(50), unique=True, nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
     date_of_birth = db.Column(db.Date, nullable=False)
-    email = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     phone= db.Column(db.String(20), unique=True, nullable=False)
     age = db.Column(db.Integer, nullable = False)
 
@@ -24,7 +24,7 @@ class Mechanic(db.Model):
 
     def serialize(self):
         return {
-            'id_mechanical': self.id_mechanic,
+            'id_mechanic': self.id_mechanic,
             'first_name':self.first_name,
             'last_name': self.last_name,
             'dni': self.dni,
