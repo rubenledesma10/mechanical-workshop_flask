@@ -13,23 +13,40 @@ def get_mechanics():
     mechanic=Mechanic.query.all()
     return jsonify([mechanics.serialize() for mechanics in mechanic])
 
-def calculate_age(fecha_nacimiento_str):
-    fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, "%Y-%m-%d").date()
-    hoy = date.today()
-    edad = hoy.year - fecha_nacimiento.year - ((hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
-    return edad
+#get mechanic by id
+@mechanic.route('/api/get_mechanic/<int:id>')
+def get_mechanic_id(id):
+    mechanic=Mechanic.query.get(id)
+    if not mechanic:
+        return jsonify({'message':'Mechanic not found'}),404
+    return jsonify(mechanic.serialize()),200
+
+def calculate_age(date_birth_str):
+    date_birth = datetime.strptime(date_birth_str, "%Y-%m-%d").date()
+    today = date.today()
+    age = today.year - date_birth.year - ((today.month, today.day) < (date_birth.month, date_birth.day))
+    return age
 
 #create mechanic 
 @mechanic.route('/api/add_mechanic', methods=['POST'])
 def add_mechanic():
     data = request.get_json()
+
+    # Verificar si los datos están completos y si todos los campos requeridos están presentes
+    required_fields = ['first_name', 'last_name', 'dni', 'date_of_birth', 'email', 'phone']
     
-    if not data or not all(key in data for key in ['first_name', 'last_name', 'dni','date_of_birth','email','phone']):
+    # Si faltan campos, devolver error
+    if not data or not all(key in data for key in required_fields):
         return jsonify({'error': 'Required data is missing'}), 400
+
+    # Verificar que ninguno de los campos esté vacío o tenga solo espacios en blanco
+    for field in required_fields:
+        if not str(data.get(field, '')).strip():  # Verifica que el valor no esté vacío
+            return jsonify({'error': f'{field.title()} is required and cannot be empty'}), 400
 
     try:
         print(f"Data received: {data}")
-        
+
         # Calcular edad automáticamente
         age_calculate = calculate_age(data['date_of_birth'])
 
@@ -51,15 +68,24 @@ def add_mechanic():
             'mechanic': new_mechanic.serialize()
         }), 201
 
-    except IntegrityError:
+    except IntegrityError as e:
         db.session.rollback()
-        return jsonify({'error': 'The email is already registered'}), 400
+        error_msg = str(e.orig).lower()
+
+        if 'email' in error_msg:
+            return jsonify({'error': 'The email is already registered'}), 400
+        elif 'phone' in error_msg:
+            return jsonify({'error': 'The phone number is already registered'}), 400
+        elif 'dni' in error_msg:
+            return jsonify({'error': 'The DNI is already registered'}), 400
+        else:
+            return jsonify({'error': 'Integrity constraint violated'}), 400
 
     except Exception as e:
         db.session.rollback()
         print(f"Unexpected error: {e}")
         return jsonify({'error': 'Error adding mechanic'}), 500
-    
+        
 #delete mechanic
 @mechanic.route('/api/delete_mechanic/<int:id>', methods=['DELETE'])
 def delete_cliente(id):
@@ -80,9 +106,15 @@ def edit_mechanic(id):
     data=request.get_json()
     if not data:
         return jsonify({'error':'No data received'}, 400)
+    
     mechanic = Mechanic.query.get(id)
     if not mechanic:
         return jsonify({'message':'Mechanic not found'}),404
+    required_fields = ['first_name', 'last_name', 'dni', 'date_of_birth', 'email', 'phone']
+    for field in required_fields:
+            if not str(data.get(field, '')).strip():  # Verifica que el valor no esté vacío
+                return jsonify({'error': f'{field.title()} is required and cannot be empty'}), 400
+
     try:
         if 'first_name' in data:
             mechanic.first_name=data['first_name']
@@ -113,6 +145,7 @@ def update_mechanic(id):
     mechanic = Mechanic.query.get(id)
     if not mechanic:
         return jsonify({'message':'Mechanic not found'}),404
+    
     try:
         if 'first_name' in data:
             mechanic.first_name=data['first_name']
@@ -133,3 +166,5 @@ def update_mechanic(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+    
+
