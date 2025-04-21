@@ -22,7 +22,7 @@ class Mechanic(db.Model):
         self.age=age
 
 
-    def serialize(self):
+    def serialize(self): #metodo para convertir el objeto a JSON
         return {
             'id_mechanic': self.id_mechanic,
             'first_name':self.first_name,
