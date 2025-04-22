@@ -7,14 +7,15 @@ class Service(db.Model):
     name = db.Column(db.String(50), nullable = False)
     cost = db.Column(db.Float, nullable = False)
     detail_service = db.Column(db.String(250), nullable = True)
-    status_service = db.column(db.String(5), nullable = False)
-    paid_method = db.column(db.String(20), nullable = False)
-    priority = db.column (db.Integer, nullable = False)
+    status_service = db.Column(db.String(20), nullable = False)
+    paid_method = db.Column(db.String(20), nullable = False)
+    priority = db.Column(db.String(10), nullable = False)
 
-    def __init__(self,name,cost,datail_service,status_service,paid_method,priority):
+
+    def __init__(self,name,cost,detail_service,status_service,paid_method,priority):
         self.name = name
         self.cost = cost
-        self.datail_service = datail_service
+        self.detail_service = detail_service
         self.status_service = status_service
         self.paid_method = paid_method
         self.priority = priority
@@ -24,7 +25,7 @@ class Service(db.Model):
             'id_service' : self.id_service,
             'name' : self.name,
             'cost' : self.cost,
-            'datail_service' : self.datail_service,
+            'detail_service' : self.detail_service,
             'status_service' : self.status_service,
             'paid_method' : self.paid_method,
             'priority' : self.priority,

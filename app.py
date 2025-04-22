@@ -9,9 +9,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
+
+from routes.routes.service_routes import client  
+app.register_blueprint(client, url_prefix="/service")
+
 with app.app_context():
     from models.mechanic import Mechanic
-    # db.drop_all()
     db.create_all()
 
 if __name__ == '__main__':
