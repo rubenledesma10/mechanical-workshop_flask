@@ -1,20 +1,24 @@
 from sqlalchemy.exc import IntegrityError
 from flask import Blueprint, jsonify, request
 from models.db import db
-from client import db
+from models.Client import Client
 
-from flask import Blueprint, request, jsonify
-from sqlalchemy.exc import IntegrityError
-from models.db import db
-from models.client import Client  # Asegúrate de tener estos campos en tu modelo
+
 
 client_bp = Blueprint('client', __name__)
 
-@client_bp.route('/clients', methods=['POST'])
+@client_bp.route('/api/client')
+def get_clients():
+    client=Client.query.all() 
+    if not client:
+        return jsonify({'message':'There are no clients registered'}),200
+    return jsonify([clients.serialize() for clients in client])
+
+@client_bp.route('/api/clients', methods=['POST'])
 def create_client():
     data = request.get_json()
 
-    required_fields = ['first_name', 'cuit', 'type_invoice', 'email', 'phone', 'address']
+    required_fields = ['first_name', 'last_name', 'cuit', 'type_invoice', 'email', 'phone', 'address'] #Carga de un cliente nuevo
     if not data or not all(key in data for key in required_fields):
         return jsonify({'error': 'Required data is missing'}), 400
 
@@ -24,6 +28,7 @@ def create_client():
 
         new_client = Client(
             first_name=data['first_name'],
+            last_name=data ['last_name'],
             cuit=data['cuit'],
             type_invoice=data['type_invoice'],
             email=data['email'],
@@ -32,7 +37,7 @@ def create_client():
         )
 
     
-        print(f"Creating Client: {new_client.first_name}, {new_client.cuit}, {new_client.type_invoice}, "
+        print(f"Creating Client: {new_client.first_name}, {new_client.last_name}, {new_client.cuit}, {new_client.type_invoice}, "
               f"{new_client.email}, {new_client.phone}, {new_client.address}")
 
         db.session.add(new_client)
@@ -50,7 +55,7 @@ def create_client():
         return jsonify({'error': f'Internal server error: {str(e)}'}), 500
 
 
-@Client.route("/api/del_client/<int:id>", methods=['DELETE'])
+@client_bp.route("/api/del_client/<int:id>", methods=['DELETE'])
 def delete_client(id):
     client = Client.query.get(id)
     
@@ -64,7 +69,7 @@ def delete_client(id):
         db.session.rollback()
         return jsonify({'error':str(e)}), 500
 
-@Client.route('/api/up_client/<int:id>', methods=['PUT'])
+@client_bp.route('/api/up_client/<int:id>', methods=['PUT'])
 def update_cliente(id):
 
     data = request.get_json()
@@ -78,12 +83,21 @@ def update_cliente(id):
         return jsonify({'error': 'Client not found'}), 404 # No se encontro al Cliente 
     
     try:
-        if "name" in data:
-            client.name = data['name']
+        if "first_name" in data:
+            client.first_name = data['first_name']
+        if 'last_name' in data:
+            client.last_name = data['last_name']
+        if 'cuit' in data:
+            client.cuit = data['cuit']
+        if 'last_name' in data:
+            client.type_invoyce = data['type_invoice']
         if 'email' in data:
             client.email = data['email']
-        if 'phone' in data:
+        if 'last_name' in data:
             client.phone = data['phone']
+        if 'last_name' in data:
+            client.address = data['address']
+           
 
         db.session.commit()
 
@@ -93,7 +107,7 @@ def update_cliente(id):
         return jsonify({'error': str(e)}), 500
     
 
-@Client.route('/api/update_client/<int:id>', methods=['PATCH'])
+@client_bp.route('/api/update_client/<int:id>', methods=['PATCH'])
 def patch_client(id):
     data = request.get_json()
 
@@ -106,12 +120,20 @@ def patch_client(id):
         return jsonify({'error': 'Cliente no encontrado'}), 404
 
     try:
-        if 'name' in data and data['name']:
-            client.name = data['name']
-        if 'email' in data and data['email']:
+        if "first_name" in data:
+            client.first_name = data['first_name']
+        if 'last_name' in data:
+            client.last_name = data['last_name']
+        if 'cuit' in data:
+            client.cuit = data['cuit']
+        if 'last_name' in data:
+            client.type_invoyce = data['type_invoice']
+        if 'email' in data:
             client.email = data['email']
-        if 'phone' in data and data['phone']:
+        if 'last_name' in data:
             client.phone = data['phone']
+        if 'last_name' in data:
+            client.address = data['address']
 
         db.session.commit()
         return jsonify({'message': 'Updated client', 'client': client.serialize()}), 200
