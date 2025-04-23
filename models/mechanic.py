@@ -5,10 +5,10 @@ class Mechanic(db.Model):
 
     id_mechanic= db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), unique=True, nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
     date_of_birth = db.Column(db.Date, nullable=False)
-    email = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     phone= db.Column(db.String(20), unique=True, nullable=False)
     age = db.Column(db.Integer, nullable = False)
 
@@ -22,9 +22,9 @@ class Mechanic(db.Model):
         self.age=age
 
 
-    def serialize(self):
+    def serialize(self): #metodo para convertir el objeto a JSON
         return {
-            'id_mechanical': self.id_mechanic,
+            'id_mechanic': self.id_mechanic,
             'first_name':self.first_name,
             'last_name': self.last_name,
             'dni': self.dni,
