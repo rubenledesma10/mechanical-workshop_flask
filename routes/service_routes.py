@@ -16,10 +16,10 @@ def add_service():
     data = request.get_json()
 
     if not data or not all(key in data for key in ['name', 'cost', 'detail_service', 'status_service', 'paid_method', 'priority']):
-        return jsonify({'error': 'Faltan datos requeridos'}), 400
+        return jsonify({'error': 'Required data is missing'}), 400
 
     try:
-        print(f"Datos recibidos: {data}")
+        print(f"Data received: {data}")
         new_service = Service(
             data['name'],
             data['cost'],
@@ -28,17 +28,17 @@ def add_service():
             data['paid_method'],
             data['priority']
         )
-        print(f"Creando nuevo servicio: {new_service.name}, {new_service.cost}, {new_service.detail_service}")
+        print(f"Creating new service: {new_service.name}, {new_service.cost}, {new_service.detail_service}")
 
         db.session.add(new_service)
         db.session.commit()
 
-        return jsonify({'Respuesta': 'Servicio creado exitosamente', 'servicio': new_service.serialize()}), 201
+        return jsonify({'Response': 'Service created successfully', 'servicio': new_service.serialize()}), 201
 
     except Exception as e:
         db.session.rollback()
-        print(f"Error inesperado: {e}") 
-        return jsonify({'error': f'Error al crear el servicio: {str(e)}'}), 500
+        print(f"Unexpected error: {e}") 
+        return jsonify({'error': f'Error creating service: {str(e)}'}), 500
 
 
 @service.route("/api/del_service/<int:id>", methods=['DELETE'])
@@ -46,11 +46,11 @@ def delete_service(id):
     service = Service.query.get(id)
 
     if not service:
-        return jsonify({'message': 'Servicio no encontrado'}), 404
+        return jsonify({'message': 'Service not found'}), 404
     try:
         db.session.delete(service)
         db.session.commit()
-        return jsonify({'mensaje': 'Servicio eliminado correctamente!'}), 200
+        return jsonify({'message': 'Service successfully removed!'}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -60,12 +60,12 @@ def update_service(id):
     data = request.get_json()
 
     if not data:
-        return jsonify({'error': 'No se recibieron datos'}), 400
+        return jsonify({'error': 'No data received'}), 400
 
     service = Service.query.get(id)
 
     if not service:
-        return jsonify({'error': 'Servicio no encontrado'}), 404
+        return jsonify({'error': 'Service not found'}), 404
 
     try:
         for field in ['name', 'cost', 'detail_service', 'status_service', 'paid_method', 'priority']:
@@ -73,7 +73,7 @@ def update_service(id):
                 setattr(service, field, data[field])
 
         db.session.commit()
-        return jsonify({'Mensaje': 'Servicio actualizado correctamente', 'servicio': service.serialize()}), 200
+        return jsonify({'message': 'Service updated successfully', 'servicio': service.serialize()}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -83,12 +83,12 @@ def patch_service(id):
     data = request.get_json()
 
     if not data:
-        return jsonify({'error': 'No se recibieron datos'}), 400
+        return jsonify({'error': 'No data received'}), 400
 
     service = Service.query.get(id)
 
     if not service:
-        return jsonify({'error': 'Servicio no encontrado'}), 404
+        return jsonify({'error': 'Service not found'}), 404
 
     try:
         for field in ['name', 'cost', 'detail_service', 'status_service', 'paid_method', 'priority']:
@@ -96,7 +96,7 @@ def patch_service(id):
                 setattr(service, field, data[field])
 
         db.session.commit()
-        return jsonify({'Mensaje': 'Servicio actualizado correctamente', 'Servicio': service.serialize()}), 200
+        return jsonify({'message': 'Service updated successfully', 'Servicio': service.serialize()}), 200
 
     except Exception as e:
         db.session.rollback()
