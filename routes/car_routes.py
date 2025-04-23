@@ -8,7 +8,7 @@ from datetime import datetime, date #para manejar fechas y calcular edad
 car = Blueprint('car', __name__) #creamos blueprint
 
 #get all cars
-@car.route('/api/car')
+@car.route('/api/cars')
 def get_cars():
     car=Car.query.all() #llamamos a todos los mecanicos que hay en la bd
     if not car:
