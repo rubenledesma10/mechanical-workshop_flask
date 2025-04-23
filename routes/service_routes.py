@@ -3,14 +3,15 @@ from flask import Blueprint, jsonify, request
 from models.db import db
 from models.service import Service
 
-client = Blueprint('service', __name__)
+service = Blueprint('service', __name__)
 
-@client.route('/api/service')
+
+@service.route('/api/service')
 def get_service():
     services = Service.query.all()
     return jsonify([serv.serialize() for serv in services])
 
-@client.route('/api/add_service', methods=['POST'])
+@service.route('/api/add_service', methods=['POST'])
 def add_service():
     data = request.get_json()
 
@@ -40,7 +41,7 @@ def add_service():
         return jsonify({'error': f'Error al crear el servicio: {str(e)}'}), 500
 
 
-@client.route("/api/del_service/<int:id>", methods=['DELETE'])
+@service.route("/api/del_service/<int:id>", methods=['DELETE'])
 def delete_service(id):
     service = Service.query.get(id)
 
@@ -54,7 +55,7 @@ def delete_service(id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@client.route('/api/up_service/<int:id>', methods=['PUT'])
+@service.route('/api/up_service/<int:id>', methods=['PUT'])
 def update_service(id):
     data = request.get_json()
 
@@ -77,7 +78,7 @@ def update_service(id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@client.route('/api/update_service/<int:id>', methods=['PATCH'])
+@service.route('/api/update_service/<int:id>', methods=['PATCH'])
 def patch_service(id):
     data = request.get_json()
 
