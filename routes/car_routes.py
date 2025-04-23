@@ -32,7 +32,7 @@ def add_car():
     required_fields = ['brand', 'model', 'patent', 'engine', 'valves', 'fuel_type'] #verificamos si estan todos los datos requeridos
     
 
-    if not data or not all(key in data for key in required_fields['brand','model','patent','engine','valves','fuel_type']): #verificamos que todos los campos esten presentes y no vacios
+    if not data or not all(key in data for key in required_fields): #verificamos que todos los campos esten presentes y no vacios
         return jsonify({'error': 'Required data is missing'}), 400 
 
     for field in required_fields:
@@ -79,12 +79,12 @@ def add_car():
         
 #delete car
 @car.route('/api/delete_car/<int:id>', methods=['DELETE'])
-def delete_cliente(id):
+def delete_car(id):
     car = Car.query.get(id)
     if not car:
         return jsonify({'message':'Car not found'}),404
     try:
-        db.session.delete(car) #eliminamos el auto de la bd
+        db.session.delete(car) #eliminamos el auto de la bd     
         db.session.commit()
         return jsonify({'message':'Car delete successfully'}),200
     except Exception as e:
@@ -148,7 +148,7 @@ def update_car(id):
         return jsonify({'error':'No data received'}, 400)
     car = Car.query.get(id)
     if not car:
-        return jsonify({'message':'Mechanic not found'}),404
+        return jsonify({'message':'Car not found'}),404
     
     try:
         if 'brand' in data:
