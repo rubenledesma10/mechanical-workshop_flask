@@ -40,5 +40,3 @@ with app.app_context():
 if __name__ == '__main__': #ejecutamos la app en modo debug para ver errores fácilmente durante el desarrollo.
     print("bienvenido a nuestra app")
     app.run(debug=True)
-
-
