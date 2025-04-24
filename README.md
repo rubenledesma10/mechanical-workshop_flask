@@ -1,66 +1,70 @@
 🛠️ Mechanical Workshop
-Mechanical Workshop es una API REST desarrollada para la gestión de un taller mecánico. Permite administrar mecánicos, clientes, vehículos y servicios ofrecidos por el taller, proporcionando endpoints para operaciones CRUD completas sobre cada entidad.
+Mechanical Workshop is a RESTful API developed for managing a mechanical workshop. It allows you to manage mechanics, clients, cars, and services offered by the workshop, providing full CRUD operations for each entity.
 
-🚀 Endpoints disponibles
-La API cuenta con las siguientes entidades, cada una con sus respectivos endpoints:
+🚀 Available Endpoints
+The API includes the following entities, each with its own set of endpoints:
 
 🔧 Mechanical
-GET /mechanicals – Obtener todos los mecánicos
+GET /api/mechanics – Get all mechanics
 
-GET /mechanicals/<id> – Obtener un mecánico por ID
+GET /api/get_mechanic/<int:id> – Get a mechanic by ID
 
-POST /mechanicals – Crear un nuevo mecánico
+POST /api/add_mechanic – Create a new mechanic
 
-PUT /mechanicals/<id> – Reemplazar un mecánico por ID
+PUT /api/edit_mechanic/<int:id> – Update a mechanic by ID
 
-PATCH /mechanicals/<id> – Actualizar parcialmente un mecánico
+PATCH /api/update_mechanic/<int:id> – Partially update a mechanic
 
-DELETE /mechanicals/<id> – Eliminar un mecánico
+DELETE /api/delete_mechanic/<int:id> – Delete a mechanic
 
 🚗 Car
-GET /cars – Obtener todos los autos
+GET /api/cars – Get all cars
 
-GET /cars/<id> – Obtener un auto por ID
+GET /api/get_car/<int:id> – Get a car by ID
 
-POST /cars – Crear un nuevo auto
+POST /api/add_car – Create a new car
 
-PUT /cars/<id> – Reemplazar un auto por ID
+PUT /api/edit_car/<int:id> – Update a car by ID
 
-PATCH /cars/<id> – Actualizar parcialmente un auto
+PATCH /api/update_car/<int:id> – Partially update a car
 
-DELETE /cars/<id> – Eliminar un auto
+DELETE /api/delete_car/<int:id> – Delete a car
 
 👤 Client
-GET /clients – Obtener todos los clientes
+GET /api/clients – Get all clients
 
-GET /clients/<id> – Obtener un cliente por ID
+GET /api/get_client/<int:id> – Get a client by ID
 
-POST /clients – Crear un nuevo cliente
+POST /clients – Create a new client
 
-PUT /clients/<id> – Reemplazar un cliente por ID
+PUT /api/up_client/<int:id> – Update a client by ID
 
-PATCH /clients/<id> – Actualizar parcialmente un cliente
+PATCH /api/update_client/<int:id> – Partially update a client
 
-DELETE /clients/<id> – Eliminar un cliente
+DELETE /api/del_client/<int:id> – Delete a client
 
 🧾 Service
-GET /services – Obtener todos los servicios
+GET /services – Get all services
 
-GET /services/<id> – Obtener un servicio por ID
+GET /services/<id> – Get a service by ID
 
-POST /services – Crear un nuevo servicio
+POST /services – Create a new service
 
-PUT /services/<id> – Reemplazar un servicio por ID
+PUT /services/<id> – Update a service by ID
 
-PATCH /services/<id> – Actualizar parcialmente un servicio
+PATCH /services/<id> – Partially update a service
 
-DELETE /services/<id> – Eliminar un servicio
+DELETE /services/<id> – Delete a service
 
-📄 Documentación
-Podés acceder a la documentación completa y probar los endpoints en el siguiente enlace de Postman:
-👉 Enlace a la colección Postman
+## 🧩 Class Diagram
 
-🧑‍💻 Integrantes del equipo
+![Class Diagram](docs/Taller.drawio.png)
+
+📄 Documentation
+You can access the full documentation and test the endpoints via the following Postman link:
+👉 Postman collection link
+
+🧑‍💻 Team Members
 Ruben Ledesma
 
 Rodrigo Espinosa
@@ -69,7 +73,7 @@ Santiago Romano
 
 Santiago Puebla
 
-🛠️ Tecnologías y herramientas utilizadas
+🛠️ Technologies and Tools Used
 Python 🐍
 
 Flask 🔥
