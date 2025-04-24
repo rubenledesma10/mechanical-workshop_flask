@@ -3,16 +3,26 @@ from flask import Blueprint, jsonify, request
 from models.db import db
 from models.service import Service
 
-service = Blueprint('service', __name__)
+service_rp = Blueprint('service', __name__)
 
 
-@service.route('/api/service')
+@service_rp.route('/api/service')
 def get_service():
     services = Service.query.all()
+    if not services:
+        return jsonify({'message':'There are no mechanics registered'}),200
     return jsonify([serv.serialize() for serv in services])
 
-@service.route('/api/add_service', methods=['POST'])
-def add_service():
+
+@service_rp.route('/api/get_service/<int:id>')
+def get_id_service(id):
+    id_service=Service.query.get(id)
+    if not id_service:
+        return jsonify({'message':'Service not found'}),404
+    return jsonify(id_service.serialize()),200
+
+@service_rp.route('/api/add_service', methods=['POST'])
+def add_service_rp():
     data = request.get_json()
 
     if not data or not all(key in data for key in ['name', 'cost', 'detail_service', 'status_service', 'paid_method', 'priority']):
@@ -41,11 +51,11 @@ def add_service():
         return jsonify({'error': f'Error creating service: {str(e)}'}), 500
 
 
-@service.route("/api/del_service/<int:id>", methods=['DELETE'])
+@service_rp.route("/api/del_service/<int:id>", methods=['DELETE'])
 def delete_service(id):
     service = Service.query.get(id)
 
-    if not service:
+    if not service_rp:
         return jsonify({'message': 'Service not found'}), 404
     try:
         db.session.delete(service)
@@ -55,8 +65,8 @@ def delete_service(id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@service.route('/api/up_service/<int:id>', methods=['PUT'])
-def update_service(id):
+@service_rp.route('/api/up_service/<int:id>', methods=['PUT'])
+def update_service_rp(id):
     data = request.get_json()
 
     if not data:
@@ -78,8 +88,8 @@ def update_service(id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@service.route('/api/update_service/<int:id>', methods=['PATCH'])
-def patch_service(id):
+@service_rp.route('/api/update_service/<int:id>', methods=['PATCH'])
+def patch_service_rp(id):
     data = request.get_json()
 
     if not data:
