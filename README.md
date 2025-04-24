@@ -1,10 +1,10 @@
-🛠️ Mechanical Workshop
+🛠️ **Mechanical Workshop**
 Mechanical Workshop is a RESTful API developed for managing a mechanical workshop. It allows you to manage mechanics, clients, cars, and services offered by the workshop, providing full CRUD operations for each entity.
 
-🚀 Available Endpoints
+🚀**Available Endpoints**
 The API includes the following entities, each with its own set of endpoints:
 
-🔧 Mechanical
+🔧 *Mechanical*
 GET /api/mechanics – Get all mechanics
 
 GET /api/get_mechanic/<int:id> – Get a mechanic by ID
@@ -17,7 +17,7 @@ PATCH /api/update_mechanic/<int:id> – Partially update a mechanic
 
 DELETE /api/delete_mechanic/<int:id> – Delete a mechanic
 
-🚗 Car
+🚗 *Car*
 GET /api/cars – Get all cars
 
 GET /api/get_car/<int:id> – Get a car by ID
@@ -30,7 +30,7 @@ PATCH /api/update_car/<int:id> – Partially update a car
 
 DELETE /api/delete_car/<int:id> – Delete a car
 
-👤 Client
+👤 *Client*
 GET /api/clients – Get all clients
 
 GET /api/get_client/<int:id> – Get a client by ID
@@ -43,7 +43,7 @@ PATCH /api/update_client/<int:id> – Partially update a client
 
 DELETE /api/del_client/<int:id> – Delete a client
 
-🧾 Service
+🧾 *Service*
 GET /services – Get all services
 
 GET /services/<id> – Get a service by ID
@@ -56,24 +56,24 @@ PATCH /services/<id> – Partially update a service
 
 DELETE /services/<id> – Delete a service
 
-## 🧩 Class Diagram
+## 🧩 **Class Diagram**
 
 ![Class Diagram](docs/Taller.drawio.png)
 
-📄 Documentation
+📄 **Documentation**
 You can access the full documentation and test the endpoints via the following Postman link:
 👉 Postman collection link
 
-🧑‍💻 Team Members
-Ruben Ledesma
+🧑‍💻 **Team Members**
+- Ruben Ledesma
 
-Rodrigo Espinosa
+- Rodrigo Espinosa
 
-Santiago Romano
+- Santiago Romano
 
-Santiago Puebla
+- Santiago Puebla
 
-🛠️ Technologies and Tools Used
+🛠️ **Technologies and Tools Used**
 Python 🐍
 
 Flask 🔥
