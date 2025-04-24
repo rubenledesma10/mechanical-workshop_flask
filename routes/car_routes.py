@@ -58,16 +58,12 @@ def add_car():
 
     except IntegrityError as e:
         db.session.rollback() 
-        error_msg = str(e.orig).lower() 
+        error_msg = str(e.orig).lower()
     
-        if 'brand' in error_msg:
-            return jsonify({'error': 'The brand is already registered'}), 400
-        elif 'patent' in error_msg:
+        if 'patent' in error_msg:
             return jsonify({'error': 'The patent number is already registered'}), 400
-        elif 'model' in error_msg:
-            return jsonify({'error': 'The model is already registered'}), 400
-        else:
-            return jsonify({'error': 'Integrity constraint violated'}), 400
+
+
 
     except Exception as e: 
         db.session.rollback()
@@ -120,17 +116,13 @@ def edit_car(id):
             car.fuel_type=data['fuel_type']
         db.session.commit()
         return jsonify({'message':'Car updated correctly','car':car.serialize()}),200
+    
     except IntegrityError as e:
         db.session.rollback()
         error_msg = str(e.orig).lower()
-        if 'brand' in error_msg:
-            return jsonify({'error': 'The brand is already registered'}), 400
-        elif 'model' in error_msg:
-            return jsonify({'error': 'The model is already registered'}), 400
-        elif 'year' in error_msg:
-            return jsonify({'error': 'The year is already registered'}), 400
-        else:
-            return jsonify({'error': 'Integrity constraint violated'}), 400
+        if 'patent' in error_msg:
+            return jsonify({'error': 'The patent is already registered'}), 400
+
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -168,12 +160,8 @@ def update_car(id):
             db.session.rollback()
             error_msg = str(e.orig).lower()
 
-            if 'brand' in error_msg:
-                return jsonify({'error': 'The brand is already registered'}), 400
-            elif 'model' in error_msg:
-                return jsonify({'error': 'The model number is already registered'}), 400
-            elif 'year' in error_msg:
-                return jsonify({'error': 'The year is already registered'}), 400
+            if 'patent' in error_msg:
+                return jsonify({'error': 'The patent is already registered'}), 400
             else:
                 return jsonify({'error': 'Integrity constraint violated'}), 400
 

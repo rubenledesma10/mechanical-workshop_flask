@@ -8,7 +8,7 @@ class Car(db.Model):
     model= db.Column(db.String(50), nullable= False)
     year= db.Column(db.Integer, nullable= False)
     number_of_doors= db.Column(db.Integer, nullable= False)
-    patent= db.Column (db.String(10), nullable= False)
+    patent= db.Column (db.String(10),unique=True, nullable= False)
     engine= db.Column (db.String(10), nullable= False)
     valves= db.Column (db.String(10), nullable= False)
     fuel_type= db.Column (db.String(10), nullable= False)
