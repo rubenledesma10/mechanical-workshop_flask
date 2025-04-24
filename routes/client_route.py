@@ -14,13 +14,25 @@ def get_clients():
         return jsonify({'message':'There are no clients registered'}),200
     return jsonify([clients.serialize() for clients in client])
 
+@client_bp.route('/api/get_client/<int:id>')
+def get_client_id(id):
+    client_bp=Client.query.get(id)
+    if not client_bp:
+        return jsonify({'message':'Client not found'}),404
+    return jsonify(client_bp.serialize()),200
+
 @client_bp.route('/api/clients', methods=['POST'])
-def create_client():
+def add_client():
     data = request.get_json()
 
     required_fields = ['first_name', 'last_name', 'cuit', 'type_invoice', 'email', 'phone', 'address'] #Carga de un cliente nuevo
     if not data or not all(key in data for key in required_fields):
         return jsonify({'error': 'Required data is missing'}), 400
+        
+    for field in required_fields:
+        if not str(data.get(field, '')).strip():  
+            return jsonify({'error': f'{field.title()} is required and cannot be empty'}), 400
+
 
     try:
 
@@ -55,7 +67,7 @@ def create_client():
         return jsonify({'error': f'Internal server error: {str(e)}'}), 500
 
 
-@client_bp.route("/api/del_client/<int:id>", methods=['DELETE'])
+@client_bp.route("/api/get_client/<int:id>", methods=['DELETE'])
 def delete_client(id):
     client = Client.query.get(id)
     
@@ -126,15 +138,15 @@ def patch_client(id):
             client.last_name = data['last_name']
         if 'cuit' in data:
             client.cuit = data['cuit']
-        if 'last_name' in data:
+        if 'type_invoice' in data:
             client.type_invoyce = data['type_invoice']
         if 'email' in data:
             client.email = data['email']
-        if 'last_name' in data:
+        if 'phone' in data:
             client.phone = data['phone']
-        if 'last_name' in data:
+        if 'address' in data:
             client.address = data['address']
-
+        
         db.session.commit()
         return jsonify({'message': 'Updated client', 'client': client.serialize()}), 200
 
