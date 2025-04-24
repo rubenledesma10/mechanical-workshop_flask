@@ -10,7 +10,7 @@ service_rp = Blueprint('service', __name__)
 def get_service():
     services = Service.query.all()
     if not services:
-        return jsonify({'message':'There are no mechanics registered'}),200
+        return jsonify({'message':'There are no service registered'}),200
     return jsonify([serv.serialize() for serv in services])
 
 
