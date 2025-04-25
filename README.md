@@ -60,9 +60,9 @@ DELETE /services/<id> – Delete a service
 
 ![Class Diagram](docs/Taller.drawio.png)
 
-📄 **Documentation**
-You can access the full documentation and test the endpoints via the following Postman link:
-👉 Postman collection link
+📄 **Documentation**  
+You can access the full documentation and test the endpoints via the following Postman link:  
+👉 [Postman collection link]([https://www.postman.com/tu-enlace-aqui](https://documenter.getpostman.com/view/31369461/2sB2iwEEK6#93ea0eaa-017c-4b6d-9cc9-f41b0f985855))
 
 🧑‍💻 **Team Members**
 - Ruben Ledesma
