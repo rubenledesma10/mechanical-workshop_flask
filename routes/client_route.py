@@ -58,8 +58,17 @@ def add_client():
         return jsonify({'message': 'Client created!'}), 201
 
     except IntegrityError as e:
-        db.session.rollback()
-        return jsonify({'error': f'Possible duplicate issue: {str(e)}'}), 400
+        db.session.rollback() #deshacemos cualquier cambio que haya hecho SQLAlchemy en la bd
+        error_msg = str(e.orig).lower() #convertimos el error en un string
+    #validamos que no se ingresen datos que ya existen
+        if 'email' in error_msg:
+            return jsonify({'error': 'The email is already registered'}), 400
+        elif 'phone' in error_msg:
+            return jsonify({'error': 'The phone number is already registered'}), 400
+        elif 'cuit' in error_msg:
+            return jsonify({'error': 'The cuit is already registered'}), 400
+        else:
+            return jsonify({'error': 'Integrity constraint violated'}), 400
 
 
     except Exception as e:
